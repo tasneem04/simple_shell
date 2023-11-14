@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include <errno.h>
 
 void displayPrompt(char *input);
 void execut(const char *command, char *const arguments[]);

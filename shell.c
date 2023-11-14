@@ -4,7 +4,8 @@
 
 int main()
 {
-    char input[MAX_INPUT_LENGTH];
+char input[MAX_INPUT_LENGTH];
+ 
 
     while (1) {
         printf("Enter a command (type 'exit' to quit): ");
@@ -41,4 +42,5 @@ int main()
     }
 
     return 0;
+
 }
