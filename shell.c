@@ -2,7 +2,8 @@
 
 #define MAX_INPUT_LENGTH 100
 
-int main() {
+int main()
+{
     char input[MAX_INPUT_LENGTH];
 
     while (1) {
@@ -23,13 +24,20 @@ int main() {
             break;
         }
 
-        // Execute the command using system
-        int result = system(input);
-        if (result == -1) {
-            printf("Error executing the command\n");
-        } else {
-            printf("Command executed with exit status: %d\n", result);
+        // Tokenize the input into command and arguments
+        char *token;
+        char *args[10];  // Assuming a maximum of 10 arguments
+
+        int i = 0;
+        token = strtok(input, " ");
+        while (token != NULL && i < 10) {
+            args[i++] = token;
+            token = strtok(NULL, " ");
         }
+        args[i] = NULL;  // Null-terminate the argument array
+
+        // Execute the command using execve
+        execut(args[0], args);
     }
 
     return 0;
