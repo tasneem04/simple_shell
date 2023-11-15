@@ -13,8 +13,8 @@ void execut(const char *command, char *const arguments[])
 
     if (pid == 0) {
         
-        if (execvp(command, arguments) == -1) {
-            perror("execvp");
+        if (execve(command, arguments, NULL)  == -1) {
+            perror("execve");
             exit(EXIT_FAILURE);
         }
     } else {
