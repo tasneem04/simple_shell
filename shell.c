@@ -8,7 +8,7 @@ int main() {
 char *args[10];
 
     while (1) {
-        printf("Enter a command (type 'exit' to quit): ");
+        printf("#cisfun$ ");
 
         if (fgets(input, sizeof(input), stdin) == NULL) {
             printf("Error reading input\n");
