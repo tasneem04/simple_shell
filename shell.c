@@ -32,15 +32,30 @@ char *args[10];
      
           
        while (token != NULL && i < 10) {
-            args[i++] = token;
-            token = strtok(NULL, " ");
+            args[i++] = strdup(token);
+           
+	   
+
+	    token = strtok(NULL, " ");
         }
-        args[i] = NULL;  
+     
+       args[i] = NULL;
+ pid_t pid = fork();
 
-        execut(args[0], args);
+ if (pid == 0) {
+          
+            char *args[] = {input, NULL};
+            execute(input, args);
+        } else {
+          
+    		int status;
+            waitpid(pid, &status, 0);
     
-    } 
+        }
+     
 
+    
+    }
     return 0;
 
 }

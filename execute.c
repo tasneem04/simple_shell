@@ -2,7 +2,7 @@
 
 #define MAX_INPUT_LENGTH 100
 
-void execut(const char *command, char *const arguments[]) 
+void execute(const char *command, char *const arguments[]) 
 {
     pid_t pid = fork();
 

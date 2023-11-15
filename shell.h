@@ -10,5 +10,5 @@
 
 #include <errno.h>
 
-void execut(const char *command, char *const arguments[]);
+void execute(const char *command, char *const arguments[]);
 #endif 
