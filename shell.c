@@ -2,60 +2,58 @@
 
 #define MAX_INPUT_LENGTH 100
 
-int main()
-{
-char input[MAX_INPUT_LENGTH];
-char *args[10]; 
+int main() {
+    char input[MAX_INPUT_LENGTH];
+    pid_t pid;
+char *args[10];
 
     while (1) {
+        printf("Enter a command (type 'exit' to quit): ");
 
-	    int i = 0;
-    char  *token = strtok(input, " ");
-       	    printf("Enter a command (type 'exit' to quit): ");
-
- 
         if (fgets(input, sizeof(input), stdin) == NULL) {
             printf("Error reading input\n");
-            break;  
- 	}
+            break;
+        }
 
-        
         input[strcspn(input, "\n")] = '\0';
 
-        
         if (strcmp(input, "exit") == 0) {
             printf("Goodbye!\n");
             break;
         }
 
-        
-     
-          
-       while (token != NULL && i < 10) {
-            args[i++] = strdup(token);
-           
-	   
+        pid = fork();
 
-	    token = strtok(NULL, " ");
+        if (pid == -1) {
+            perror("fork");
+            exit(EXIT_FAILURE);
         }
-     
-       args[i] = NULL;
- pid_t pid = fork();
 
- if (pid == 0) {
+        if (pid == 0) {
           
-            char *args[] = {input, NULL};
+            char *token;
+            int i = 0;
+
+            token = strtok(input, " ");
+
+            while (token != NULL && i < 10) {
+                args[i++] = strdup(token);
+                token = strtok(NULL, " ");
+            }
+
+            args[i] = NULL;
+
+         
             execute(input, args);
+            exit(EXIT_SUCCESS);  
         } else {
-          
-    		int status;
+         
+            int status;
             waitpid(pid, &status, 0);
-    
-        }
-     
-
-    
+           
+	}
     }
-    return 0;
 
+    return 0;
 }
+
