@@ -1,59 +1,36 @@
 #include "shell.h"
+/** main :the main function to show the prompt */
 
-#define MAX_INPUT_LENGTH 100
-
-int main() {
-    char input[MAX_INPUT_LENGTH];
-    pid_t pid;
-char *args[10];
-
-    while (1) {
+int main(void) {
+    char *args[2];
+    char command[100];
+pid_t pid ;
+    while(1) {
         printf("#cisfun$ ");
+        fgets(command, sizeof(command), stdin);
+        command[strcspn(command, "\n")] = 0;
 
-        if (fgets(input, sizeof(input), stdin) == NULL) {
-            printf("Error reading input\n");
-            break;
-        }
+        args[0] = command;
+        args[1] = NULL;
 
-        input[strcspn(input, "\n")] = '\0';
-
-        if (strcmp(input, "exit") == 0) {
-            printf("Goodbye!\n");
-            break;
-        }
-
-        pid = fork();
-
+         pid = fork();
         if (pid == -1) {
             perror("fork");
             exit(EXIT_FAILURE);
         }
 
         if (pid == 0) {
-          
-            char *token;
-            int i = 0;
-
-            token = strtok(input, " ");
-
-            while (token != NULL && i < 10) {
-                args[i++] = strdup(token);
-                token = strtok(NULL, " ");
+           if (execve(args[0], args, NULL) == -1) 
+	   {
+                perror("execve");
+                exit(EXIT_FAILURE);
             }
-
-            args[i] = NULL;
-
-         
-            execute(input, args);
-            exit(EXIT_SUCCESS);  
         } else {
-         
+           
             int status;
             waitpid(pid, &status, 0);
-           
-	}
+        }
     }
 
     return 0;
 }
-
